@@ -62,7 +62,8 @@ void I2C_Init(I2C_Type* base, const i2c_init_config_t* initConfig)
     assert(initConfig);
 
     /* Disable I2C Module. */
-    I2C_I2CR_REG(base) &= ~I2C_I2CR_IEN_MASK;
+    base->I2CR &= ~I2C_I2CR_IEN_MASK;
+    //I2C_I2CR_REG(base) &= ~I2C_I2CR_IEN_MASK;
 
     /* Reset I2C register to its default value. */
     I2C_Deinit(base);
@@ -84,12 +85,16 @@ void I2C_Init(I2C_Type* base, const i2c_init_config_t* initConfig)
 void I2C_Deinit(I2C_Type* base)
 {
     /* Disable I2C Module */
-    I2C_I2CR_REG(base) &= ~I2C_I2CR_IEN_MASK;
+    base->I2CR &= ~I2C_I2CR_IEN_MASK;
+    //I2C_I2CR_REG(base) &= ~I2C_I2CR_IEN_MASK;
 
     /* Reset I2C Module Register content to default value */
-    I2C_IADR_REG(base) = 0x0;
-    I2C_IFDR_REG(base) = 0x0;
-    I2C_I2CR_REG(base) = 0x0;
+    base->IADR = 0x0;
+    base->IFDR = 0x0;
+    base->I2CR = 0x0;
+    //I2C_IADR_REG(base) = 0x0;
+    //I2C_IFDR_REG(base) = 0x0;
+    //I2C_I2CR_REG(base) = 0x0;
 }
 
 /*FUNCTION**********************************************************************
@@ -124,7 +129,8 @@ void I2C_SetBaudRate(I2C_Type* base, uint32_t clockRate, uint32_t baudRate)
             clkDivIndex++;
     }
 
-    I2C_IFDR_REG(base) = i2cClkDivTab[clkDivIndex][1];
+    base->IFDR = i2cClkDivTab[clkDivIndex][1];
+    //I2C_IFDR_REG(base) = i2cClkDivTab[clkDivIndex][1];
 }
 
 /*******************************************************************************
@@ -140,9 +146,11 @@ void I2C_SetBaudRate(I2C_Type* base, uint32_t clockRate, uint32_t baudRate)
 void I2C_SetAckBit(I2C_Type* base, bool ack)
 {
     if (ack)
-        I2C_I2CR_REG(base) &= ~I2C_I2CR_TXAK_MASK;
+        base->I2CR &= ~I2C_I2CR_TXAK_MASK;
+        //I2C_I2CR_REG(base) &= ~I2C_I2CR_TXAK_MASK;
     else
-        I2C_I2CR_REG(base) |= I2C_I2CR_TXAK_MASK;
+        base->I2CR |= I2C_I2CR_TXAK_MASK;
+        //I2C_I2CR_REG(base) |= I2C_I2CR_TXAK_MASK;
 }
 
 /*******************************************************************************
@@ -157,9 +165,11 @@ void I2C_SetAckBit(I2C_Type* base, bool ack)
 void I2C_SetIntCmd(I2C_Type* base, bool enable)
 {
     if (enable)
-        I2C_I2CR_REG(base) |= I2C_I2CR_IIEN_MASK;
+        base->I2CR |= I2C_I2CR_IIEN_MASK;
+        //I2C_I2CR_REG(base) |= I2C_I2CR_IIEN_MASK;
     else
-        I2C_I2CR_REG(base) &= ~I2C_I2CR_IIEN_MASK;
+        base->I2CR &= ~I2C_I2CR_IIEN_MASK;
+        //I2C_I2CR_REG(base) &= ~I2C_I2CR_IIEN_MASK;
 }
 
 /*******************************************************************************

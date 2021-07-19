@@ -14,6 +14,7 @@ zephyr_library_sources(
 )
 endif()
 
+
 zephyr_library_sources_ifdef(CONFIG_COUNTER_IMX_EPIT	epit.c)
 zephyr_library_sources_ifdef(CONFIG_GPIO_IMX		gpio_imx.c)
 zephyr_library_sources_ifdef(CONFIG_I2C_IMX		i2c_imx.c)

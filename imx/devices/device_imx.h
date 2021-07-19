@@ -63,6 +63,14 @@
     #define RDC_SEMAPHORE_MASTER_SELF   (6)
     #define SEMA4_PROCESSOR_SELF        (1)
 
+#elif defined(CONFIG_SOC_MIMX8MM6)
+
+    /* CMSIS-style register definitions */
+    #include "MIMX8MM6_cm4.h"
+
+    #define RDC_SEMAPHORE_MASTER_SELF   (6)
+    #define SEMA4_PROCESSOR_SELF        (1)
+    
 #else
     #error "No valid CPU defined!"
 #endif

@@ -114,7 +114,8 @@ void I2C_Deinit(I2C_Type* base);
  */
 static inline void I2C_Enable(I2C_Type* base)
 {
-    I2C_I2CR_REG(base) |= I2C_I2CR_IEN_MASK;
+	base->I2CR |= I2C_I2CR_IEN_MASK;
+   // I2C_I2CR_REG(base) |= I2C_I2CR_IEN_MASK;
 }
 
 /*!
@@ -124,7 +125,8 @@ static inline void I2C_Enable(I2C_Type* base)
  */
 static inline void I2C_Disable(I2C_Type* base)
 {
-    I2C_I2CR_REG(base) &= ~I2C_I2CR_IEN_MASK;
+	base->I2CR &= ~I2C_I2CR_IEN_MASK;
+   // I2C_I2CR_REG(base) &= ~I2C_I2CR_IEN_MASK;
 }
 
 /*!
@@ -145,8 +147,8 @@ void I2C_SetBaudRate(I2C_Type* base, uint32_t clockRate, uint32_t baudRate);
 static inline void I2C_SetSlaveAddress(I2C_Type* base, uint8_t slaveAddress)
 {
     assert(slaveAddress < 0x80);
-
-    I2C_IADR_REG(base) = (I2C_IADR_REG(base) & ~I2C_IADR_ADR_MASK) | I2C_IADR_ADR(slaveAddress);
+    base->IADR = (base->IADR & ~I2C_IADR_ADR_MASK) | I2C_IADR_ADR(slaveAddress);
+    //I2C_IADR_REG(base) = (I2C_IADR_REG(base) & ~I2C_IADR_ADR_MASK) | I2C_IADR_ADR(slaveAddress);
 }
 
 /*!
@@ -161,7 +163,8 @@ static inline void I2C_SetSlaveAddress(I2C_Type* base, uint8_t slaveAddress)
  */
 static inline void I2C_SendRepeatStart(I2C_Type* base)
 {
-    I2C_I2CR_REG(base) |= I2C_I2CR_RSTA_MASK;
+    base->I2CR |= I2C_I2CR_RSTA_MASK;
+    //I2C_I2CR_REG(base) |= I2C_I2CR_RSTA_MASK;
 }
 
 /*!
@@ -174,8 +177,8 @@ static inline void I2C_SendRepeatStart(I2C_Type* base)
 static inline void I2C_SetWorkMode(I2C_Type* base, uint32_t mode)
 {
     assert((mode == i2cModeMaster) || (mode == i2cModeSlave));
-
-    I2C_I2CR_REG(base) = (I2C_I2CR_REG(base) & ~I2C_I2CR_MSTA_MASK) | mode;
+    base->I2CR = (base->I2CR & ~I2C_I2CR_MSTA_MASK) | mode;
+    //I2C_I2CR_REG(base) = (I2C_I2CR_REG(base) & ~I2C_I2CR_MSTA_MASK) | mode;
 }
 
 /*!
@@ -188,8 +191,8 @@ static inline void I2C_SetWorkMode(I2C_Type* base, uint32_t mode)
 static inline void I2C_SetDirMode(I2C_Type* base, uint32_t direction)
 {
     assert((direction == i2cDirectionReceive) || (direction == i2cDirectionTransmit));
-
-    I2C_I2CR_REG(base) = (I2C_I2CR_REG(base) & ~I2C_I2CR_MTX_MASK) | direction;
+    base->I2CR = (base->I2CR & ~I2C_I2CR_MTX_MASK) | direction;
+    //I2C_I2CR_REG(base) = (I2C_I2CR_REG(base) & ~I2C_I2CR_MTX_MASK) | direction;
 }
 
 /*!
@@ -216,7 +219,8 @@ void I2C_SetAckBit(I2C_Type* base, bool ack);
  */
 static inline void I2C_WriteByte(I2C_Type* base, uint8_t byte)
 {
-    I2C_I2DR_REG(base) = byte;
+    base->I2DR = byte;
+    //I2C_I2DR_REG(base) = byte;
 }
 
 /*!
@@ -230,7 +234,8 @@ static inline void I2C_WriteByte(I2C_Type* base, uint8_t byte)
  */
 static inline uint8_t I2C_ReadByte(I2C_Type* base)
 {
-    return (uint8_t)(I2C_I2DR_REG(base) & I2C_I2DR_DATA_MASK);
+    return (uint8_t)(base->I2DR & I2C_I2DR_DATA_MASK);
+    //return (uint8_t)(I2C_I2DR_REG(base) & I2C_I2DR_DATA_MASK);
 }
 
 /*!
@@ -257,7 +262,8 @@ void I2C_SetIntCmd(I2C_Type* base, bool enable);
  */
 static inline uint32_t I2C_GetStatusFlag(I2C_Type* base, uint32_t flags)
 {
-    return (I2C_I2SR_REG(base) & flags);
+    return (base->I2SR & flags);
+    //return (I2C_I2SR_REG(base) & flags);
 }
 
 /*!
@@ -269,7 +275,8 @@ static inline uint32_t I2C_GetStatusFlag(I2C_Type* base, uint32_t flags)
 static inline void I2C_ClearStatusFlag(I2C_Type* base, uint32_t flags)
 {
     /* Write 0 to clear. */
-    I2C_I2SR_REG(base) &= ~flags;
+    base->I2SR &= ~flags;
+    //I2C_I2SR_REG(base) &= ~flags;
 }
 
 #ifdef __cplusplus
